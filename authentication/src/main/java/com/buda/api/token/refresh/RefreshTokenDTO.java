@@ -1,4 +1,4 @@
-package com.buda.api.token.verify;
+package com.buda.api.token.refresh;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserIDDTO {
-    private Long userID;    
-    private Long staffID;
+public class RefreshTokenDTO {
+    private String token;
 }
