@@ -19,6 +19,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.buda.api.register.UserRegister;
 import com.buda.entities.enumeration.PlanType;
 
 import lombok.AllArgsConstructor;
@@ -71,4 +72,20 @@ public class User {
                }
     )
     private Collection<Role> roles = new ArrayList<Role>();
+    @Column(name = "picture_id")
+    private Long pictureID;
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public User(UserRegister userRegister)
+    {
+        this.email = userRegister.getEmail();
+        this.userName = userRegister.getUsername();
+        this.phoneNumber = userRegister.getPhoneNumber();
+        this.password = userRegister.getPassword();
+        this.firstName = userRegister.getFirstName();
+        this.lastName = userRegister.getLastName();
+    }
 }

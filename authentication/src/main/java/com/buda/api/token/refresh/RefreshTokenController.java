@@ -1,7 +1,5 @@
 package com.buda.api.token.refresh;
 
-import com.buda.api.token.verify.TokenDTO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
