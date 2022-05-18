@@ -13,6 +13,7 @@ import com.buda.entities.enumeration.MailTokenType;
 import com.buda.repository.MailConfirmationTokenRepository;
 import com.buda.repository.UserRepository;
 import com.buda.services.EmailService;
+import com.buda.util.SHA256Encoder;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -70,7 +71,7 @@ public class SendConfirmRegisterMailService {
     }
 
     private MailConfirmationToken buildConfirmationTokenFor(User user) {
-        String confirmEmailToken = UUID.randomUUID().toString();
+        String confirmEmailToken = SHA256Encoder.encode(UUID.randomUUID().toString());
         return new MailConfirmationToken(
             confirmEmailToken,
             LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),

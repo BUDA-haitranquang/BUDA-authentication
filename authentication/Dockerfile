@@ -2,4 +2,4 @@ FROM adoptopenjdk/openjdk11
 COPY ./src/main/resources/* /resources
 COPY ./target/*.jar /authentication.jar
 ENTRYPOINT ["java","-jar","/authentication.jar"]
-EXPOSE 8080
+EXPOSE 6060
