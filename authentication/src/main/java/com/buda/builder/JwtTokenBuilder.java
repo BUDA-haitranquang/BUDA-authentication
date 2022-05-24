@@ -93,7 +93,7 @@ public class JwtTokenBuilder implements Serializable {
         claims.put("roles", user.getRoles());
         claims.put("tokenType", "Refresh");
         claims.put("userID", user.getUserID());
-        return doGenerateToken(claims, user.getEmail(), JwtConfig.HoursAccessToken);
+        return doGenerateToken(claims, user.getEmail(), JwtConfig.HoursRefreshToken);
     }
 
     public String generateAccessToken(User user) {
