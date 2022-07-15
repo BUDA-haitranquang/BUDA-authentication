@@ -22,8 +22,11 @@ public class BudaGoogleTokenVerifier {
 
     public static GoogleIdTokenVerifier googleIdTokenVerifier = 
     new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-    .setAudience(Collections.singletonList(googleCredentials))
+    .setAudience(Collections.singletonList("1069931989583-9f6bge28vmggapg9ah7bgf14sismu580.apps.googleusercontent.com"))
     .build();
+    public static String getCredentials() {
+        return googleCredentials;
+    }
     public BudaGoogleTokenVerifier()
     {
 

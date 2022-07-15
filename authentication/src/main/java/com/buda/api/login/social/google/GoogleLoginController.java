@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.buda.builder.JwtSimple;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @CrossOrigin("*")
@@ -26,4 +29,9 @@ public class GoogleLoginController {
         GoogleUserPayload googleUserPayload = BudaGoogleTokenVerifier.userCustomPayload(jwtSimple.getToken());
         return ResponseEntity.ok().body(this.googleLoginService.processGoogleUserPostLogin(googleUserPayload));
     }
+    @GetMapping(value="/credentials")
+    public String getMethodName() {
+        return BudaGoogleTokenVerifier.getCredentials();
+    }
+    
 }

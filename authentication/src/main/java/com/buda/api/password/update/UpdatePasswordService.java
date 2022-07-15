@@ -32,6 +32,6 @@ public class UpdatePasswordService {
             user.get().setPassword(bCryptPasswordEncoder.encode(userUpdatePassword.getNewPassword()));
             this.userRepository.save(user.get());
         }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong password");
+        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong password");
     }
 }

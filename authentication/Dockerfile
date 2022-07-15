@@ -1,5 +1,6 @@
 FROM adoptopenjdk/openjdk11
-COPY ./src/main/resources/* /resources
+WORKDIR /authentication
+COPY ./src/main/resources/* resources/
 COPY ./target/*.jar /authentication.jar
-ENTRYPOINT ["java","-jar","/authentication.jar"]
+ENTRYPOINT ["java","-jar", "-Dspring.config.location=resources/application.properties","/authentication.jar"]
 EXPOSE 6060
