@@ -3,6 +3,9 @@ package com.buda.entities;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,9 +26,15 @@ import com.buda.api.register.UserRegister;
 import com.buda.entities.enumeration.PlanType;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import org.hibernate.annotations.NaturalId;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "user", indexes = {
@@ -34,11 +43,10 @@ import lombok.Setter;
         @Index(columnList = "userName", name = "user_user_name_index")
 
 })
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -71,21 +79,59 @@ public class User {
                    @Index(name = "user_role_user_id", columnList = "user_id")
                }
     )
-    private Collection<Role> roles = new ArrayList<Role>();
+    private Set<Role> roles = new HashSet<>();
     @Column(name = "picture_id")
     private Long pictureID;
 
     public void addRole(Role role) {
-        this.roles.add(role);
+        roles.add(role);
+        role.getUsers().add(this);
+      }
+    
+      public void removeRole(Role role) {
+        roles.remove(role);
+        role.getUsers().remove(this);
+      }
+    
+      //-------- Implements các methods của interface UserDetails
+      @Override
+      public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();         
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }      
+        return authorities;
+      }
+    
+      @Override
+      public boolean isAccountNonExpired() {
+        return true;
+      }
+    
+      @Override
+      public boolean isAccountNonLocked() {
+        return true;
+      }
+    
+      @Override
+      public boolean isCredentialsNonExpired() {
+        return true;
+      }
+    
+      @Override
+      public boolean isEnabled() {
+        return this.enabled;
+      }
+
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
-    public User(UserRegister userRegister)
-    {
-        this.email = userRegister.getEmail();
-        this.userName = userRegister.getUsername();
-        this.phoneNumber = userRegister.getPhoneNumber();
-        this.password = userRegister.getPassword();
-        this.firstName = userRegister.getFirstName();
-        this.lastName = userRegister.getLastName();
+    public User(String username2, String encode) {
+    }
+
+    public User(UserRegister userRegister) {
     }
 }

@@ -5,8 +5,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
+import com.buda.entities.Staff;
 import com.buda.entities.User;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -96,12 +98,30 @@ public class JwtTokenBuilder implements Serializable {
         return doGenerateToken(claims, user.getEmail(), JwtConfig.HoursRefreshToken);
     }
 
+    public String generateStaffRefreshToken(Optional<Staff> staff) {
+        Map<String, Object> claims = new HashMap<String, Object>();
+        claims.put("roles", staff.get().getRoles());
+        claims.put("tokenType", "Refresh");
+        claims.put("staffID", staff.get().getStaffID());
+        claims.put("userID", staff.get().getUserID());
+        return doGenerateToken(claims, staff.get().getEmail(), JwtConfig.HoursRefreshToken);
+    }
+
     public String generateAccessToken(User user) {
         Map<String, Object> claims = new HashMap<String, Object>();
         claims.put("roles", user.getRoles());
         claims.put("tokenType", "Access");
         claims.put("userID", user.getUserID());
         return doGenerateToken(claims, user.getEmail(), JwtConfig.HoursAccessToken);
+    }
+
+    public String generateStaffAccessToken(Optional<Staff> staff) {
+        Map<String, Object> claims = new HashMap<String, Object>();
+        claims.put("roles", staff.get().getRoles());
+        claims.put("tokenType", "Access");
+        claims.put("staffID", staff.get().getStaffID());
+        claims.put("userID", staff.get().getUserID());
+        return doGenerateToken(claims, staff.get().getEmail(), JwtConfig.HoursAccessToken);
     }
     // while creating the token
     // 1.Define claims of the token, like Issuer, Expiration, Subject, and the ID
