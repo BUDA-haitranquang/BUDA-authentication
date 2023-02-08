@@ -24,6 +24,7 @@ import javax.persistence.Table;
 
 import com.buda.api.register.UserRegister;
 import com.buda.entities.enumeration.PlanType;
+import com.buda.entities.enumeration.Provider;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -82,6 +83,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
     @Column(name = "picture_id")
     private Long pictureID;
+    private Provider provider;
 
     public void addRole(Role role) {
         roles.add(role);
